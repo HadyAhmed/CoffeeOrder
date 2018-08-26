@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Coffee Order</string>
+    <string name="quantity_title">Quantity</string>
+    <string name="price_title">Price</string>
+    <string name="order_button">Order</string>
+    <string name="chocolate_flavor">Chocolate Flavor</string>
+    <string name="cream_flavor">Cream Flavor</string>
+    <string name="profile_menu">Profile</string>
+    <string name="mail_menu">Mail</string>
+    <string name="about_us_menu">About Us...</string>
+</resources>
