@@ -211,9 +211,6 @@ public class MainActivity extends AppCompatActivity {
 //                Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 return true;
-            case R.id.mail_menu:
-                Toast.makeText(this, "Item " + item.getItemId(), Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.about:
                 aboutUs.setVisibility(View.VISIBLE);
                 return true;
