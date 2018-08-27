@@ -91,11 +91,12 @@
     <TextView
         android:id="@+id/total_price"
         style="@style/ResultsTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/price_title"
         android:layout_centerHorizontal="true"
         android:text="$0"
+        android:textAlignment="center"
         tools:ignore="HardcodedText" />
 
     <View
@@ -122,12 +123,6 @@
             android:id="@+id/total_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="this is just a sample report to view how is it gonna be in the text view which will show off the report
-this is just a sample report to view how is it gonna be in the text view which will show off the report
-this is just a sample report to view how is it gonna be in the text view which will show off the report
-this is just a sample report to view how is it gonna be in the text view which will show off the report
-this is just a sample report to view how is it gonna be in the this is just a sample report to view how is it gonna be in the text view which will show off the reportthis is just a sample report to view how is it gonna be in the text view which will show off the reportthis is just a sample report to view how is it gonna be in the text view which will show off the reporttext view which will show off the report
-this is just a sample report to view how is it gonna be in the text view which will show off the report"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@android:color/black" />
     </ScrollView>

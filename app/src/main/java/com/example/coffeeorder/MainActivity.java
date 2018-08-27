@@ -1,7 +1,9 @@
 package com.example.coffeeorder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,13 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.NumberFormat;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int COFFEE_PRICE = 5;
-    private Button increaseBtn, decreaseBtn, orderBtn;
+    private static final int COFFEE_PRICE = 3;
+    private static final int CREAM_FLAVOR = 2;
+    private static final double CHOCOLATE_FLAVOR = 2.5;
+    private static final String QUANTITY_KEY = "quantity";
+    private static final String TOTAL_PRICE_KEY = "total_price";
+    private static final String QUANTITY_NUM_KEY = "number_of_coffees";
+    private static final String REPORT_KEY = "report";
+    private String name, email, phoneNum;
     private TextView coffeeQuantity, totalPrice, finalReport;
-    private RadioButton chocolate, cream;
+    private RadioButton chocolate;
     private int quantity = 0;
 
     @Override
@@ -27,14 +36,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Find The References For The Views
-        increaseBtn = findViewById(R.id.increase_quantity);
-        decreaseBtn = findViewById(R.id.decrease_quantity);
-        orderBtn = findViewById(R.id.order_button);
+        Button increaseBtn = findViewById(R.id.increase_quantity);
+        Button decreaseBtn = findViewById(R.id.decrease_quantity);
+        Button orderBtn = findViewById(R.id.order_button);
         coffeeQuantity = findViewById(R.id.quantity);
         totalPrice = findViewById(R.id.total_price);
         finalReport = findViewById(R.id.total_report);
         chocolate = findViewById(R.id.chocolate);
-        cream = findViewById(R.id.cream);
+        RadioButton cream = findViewById(R.id.cream);
+
+        // Save Activity State For The Life Cycle
+        doState(savedInstanceState);
 
         // Action For Increase Button Clicked
         increaseBtn.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     showQuantity(quantity);
                     showPrice(quantity);
                 } else {
-                    Toast.makeText(MainActivity.this, "Wow!, Leave Some Coffee For Others", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.check_over_required, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -55,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (quantity == 0) {
-                    Toast.makeText(MainActivity.this, "You Can't Order Empty Cups", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.check_zero_required, Toast.LENGTH_SHORT).show();
                 } else {
                     quantity--;
                     showQuantity(quantity);
@@ -71,13 +83,75 @@ public class MainActivity extends AppCompatActivity {
                 showPrice(quantity);
             }
         });
-
         cream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPrice(quantity);
             }
         });
+
+        name = getIntent().getStringExtra(ProfileActivity.NAME_KEY);
+        email = getIntent().getStringExtra(ProfileActivity.EMAIL_KEY);
+        phoneNum = getIntent().getStringExtra(ProfileActivity.PHONE_KEY);
+
+        orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (quantity != 0) {
+                    checkInputs();
+                    displayReport();
+                } else {
+                    Toast toast = Toast.makeText(MainActivity.this, "Please Add Coffees To Make Order", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            }
+        });
+
+    }
+
+    private void displayReport() {
+        String report = "Hello: " + name
+                + "\nEmail: " + email
+                + "\nPhone Number: " + phoneNum
+                + "\nNumber Of Coffees: " + quantity
+                + "\nFlavor: " + flavorSelected()
+                + "\nTotal Price: " + totalPrice.getText().toString();
+        finalReport.setText(report);
+    }
+
+    /**
+     * @return The Selected Flavor Name
+     */
+    private String flavorSelected() {
+        if (chocolate.isChecked()) {
+            return "Chocolate";
+        } else return "Cream";
+    }
+
+    /**
+     * This Will Check If The Inserted Inputs Are Empty Or Not
+     * If They Are, Then They Will Generate Sample Text
+     */
+    private void checkInputs() {
+        if (name == null || name.isEmpty()) {
+            name = "Customer" + new Random(1000).nextInt();
+        }
+        if (phoneNum == null || phoneNum.isEmpty()) {
+            phoneNum = "No Number";
+        }
+        if (email == null || email.isEmpty()) {
+            email = "No Mail";
+        }
+    }
+
+    private void doState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            quantity = savedInstanceState.getInt(QUANTITY_NUM_KEY);
+            coffeeQuantity.setText(savedInstanceState.getString(QUANTITY_KEY));
+            totalPrice.setText(savedInstanceState.getString(TOTAL_PRICE_KEY));
+            finalReport.setText(savedInstanceState.getString(REPORT_KEY));
+        }
     }
 
     /**
@@ -95,11 +169,11 @@ public class MainActivity extends AppCompatActivity {
      * @param coffees number of coffees
      */
     private void showPrice(int coffees) {
-        int flavor;
+        double flavor;
         if (chocolate.isChecked()) {
-            flavor = 10 + COFFEE_PRICE;
+            flavor = CHOCOLATE_FLAVOR + COFFEE_PRICE;
         } else {
-            flavor = 7 + COFFEE_PRICE;
+            flavor = CREAM_FLAVOR + COFFEE_PRICE;
         }
         totalPrice.setText(NumberFormat.getCurrencyInstance().format(coffees * flavor));
     }
@@ -124,7 +198,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.profile_menu:
-                Toast.makeText(this, "Item " + item.getItemId(), Toast.LENGTH_SHORT).show();
+//                Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 return true;
             case R.id.mail_menu:
                 Toast.makeText(this, "Item " + item.getItemId(), Toast.LENGTH_SHORT).show();
@@ -135,5 +210,14 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(QUANTITY_NUM_KEY, quantity);
+        outState.putString(QUANTITY_KEY, coffeeQuantity.getText().toString());
+        outState.putString(TOTAL_PRICE_KEY, totalPrice.getText().toString());
+        outState.putString(REPORT_KEY, finalReport.getText().toString());
     }
 }
