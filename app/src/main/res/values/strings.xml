@@ -7,7 +7,7 @@
     <string name="cream_flavor">Cream Flavor</string>
     <string name="profile_menu">Profile</string>
     <string name="mail_menu">Mail</string>
-    <string name="about_us_menu">About Us...</string>
+    <string name="about_us_menu">About Us…</string>
     <string name="check_over_required">Wow!, Leave Some Coffee For Others</string>
     <string name="check_zero_required">You Can\'t Order Empty Cups</string>
     <string name="profile_name">Profile</string>
@@ -16,4 +16,12 @@
     <string name="phone_num_hint">Phone Num</string>
     <string name="submit_btn">Submit</string>
     <string name="email_error_message">You Must Insert Valid Gmail</string>
+    <string name="about_us">This is a simple app to make a simple order for coffee, with two flavors options.
+        \nthis app will show the total quantity, total price and finally when order button hit, it will show
+    a final report for the whole order.
+    \nThis app was made by Hadi Ahmed, using some tutorials to learn and a couple of searching pages and documentations.
+    please contact me if there\'s any comment.
+    \nE-mail:\"h.a7med2017@gmail.com\"
+        \nPhone:"+201000652173\"</string>
+    <string name="hide_btn">Hide</string>
 </resources>

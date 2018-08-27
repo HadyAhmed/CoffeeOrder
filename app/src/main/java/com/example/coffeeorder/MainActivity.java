@@ -3,6 +3,7 @@ package com.example.coffeeorder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView coffeeQuantity, totalPrice, finalReport;
     private RadioButton chocolate;
     private int quantity = 0;
+    private CardView aboutUs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +41,13 @@ public class MainActivity extends AppCompatActivity {
         Button increaseBtn = findViewById(R.id.increase_quantity);
         Button decreaseBtn = findViewById(R.id.decrease_quantity);
         Button orderBtn = findViewById(R.id.order_button);
+        Button hideDetails = findViewById(R.id.hide);
         coffeeQuantity = findViewById(R.id.quantity);
         totalPrice = findViewById(R.id.total_price);
         finalReport = findViewById(R.id.total_report);
         chocolate = findViewById(R.id.chocolate);
         RadioButton cream = findViewById(R.id.cream);
+        aboutUs = findViewById(R.id.about_card_view);
 
         // Save Activity State For The Life Cycle
         doState(savedInstanceState);
@@ -76,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        hideDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aboutUs.setVisibility(View.INVISIBLE);
+            }
+        });
         // Action For Radio Button Clicks
         chocolate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Item " + item.getItemId(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.about:
-                Toast.makeText(this, "Item " + item.getItemId(), Toast.LENGTH_SHORT).show();
+                aboutUs.setVisibility(View.VISIBLE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
