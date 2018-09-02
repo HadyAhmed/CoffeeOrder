@@ -30,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isValid(emailText)) {
                     Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                    // Pass Values Throw Intent If They Are Valid And Move To MainActivity.
                     intent.putExtra(NAME_KEY, nameText.getText().toString());
                     intent.putExtra(EMAIL_KEY, emailText.getText().toString());
                     intent.putExtra(PHONE_KEY, phoneNum.getText().toString());
@@ -40,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        // Remove Error When The User Decide To Change The Text Into The TextInputEditText
         emailText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
